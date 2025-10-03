@@ -1,0 +1,47 @@
+/**
+ * Driver for ping sensor
+ * @file ping.c
+ * @author
+ */
+#ifndef PING_H_
+#define PING_H_
+
+#include <stdint.h>
+#include <stdbool.h>
+#include <inc/tm4c123gh6pm.h>
+#include "driverlib/interrupt.h"
+
+/**
+ * Initialize ping sensor. Uses PB3 and Timer 3B
+ */
+void ping_init (void);
+
+/**
+ * @brief Trigger the ping sensor
+ * ping_getDistance should be ran after this
+ */
+void ping_trigger (void);
+
+/**
+ * @brief Timer3B ping ISR
+ */
+void TIMER3B_Handler(void);
+
+/**
+ * @brief Calculate the distance in cm
+ *  Should be ran after ping_trigger
+ * @return Distance in cm
+ */
+float ping_getDistance (void);
+
+
+
+typedef struct {
+    int overflow;
+    float distance;
+    int32_t pulse_width;
+} PingDebug;
+
+PingDebug ping_getDistanceDebug();
+
+#endif /* PING_H_ */
